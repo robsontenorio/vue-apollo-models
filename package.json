@@ -1,0 +1,41 @@
+{
+  "name": "vue-apollo-models",
+  "version": "1.1.0",
+  "description": "🔌 Transform vue-apollo GraphQL responses into Models.",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "babel src -d build",
+    "prepare": "yarn build && yarn cc",
+    "test": "jest --watch --coverage",
+    "cc": "jest --coverage"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robsontenorio/vue-apollo-models.git"
+  },
+  "keywords": [
+    "vue",
+    "nuxt",
+    "apollo",
+    "graphql"
+  ],
+  "author": "Robson Tenório",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robsontenorio/vue-apollo-models/issues"
+  },
+  "homepage": "https://github.com/robsontenorio/vue-apollo-models#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.0"
+  },
+  "dependencies": {
+    "glob": "^7.1.3"
+  }
+}
