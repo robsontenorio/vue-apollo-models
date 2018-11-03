@@ -10,7 +10,6 @@ export default class Model {
     } else {
       Object.assign(this, this.constructor.defaults, attributes)
     }
-    delete this.__typename
   }
 
   /**
@@ -86,26 +85,26 @@ export default class Model {
         mutation: operation.mutation,
         variables: operation.variables
       })
-      console.log('reposta da mutation')
+      // console.log('reposta da mutation')
       let object = {}
 
       Object.assign(object, Object.entries(response.data)[0][1])
 
-      console.log(object)
+      // console.log(object)
 
       let graph = GraphParser.map(object, this.$models)
 
       // console.log({ ...graph })
 
-      this.hasId() ? Object.assign(this, {}, { ...graph }) : Object.assign(this, {}, { ...graph })
+      // this.hasId() ? Object.assign(this, {}, { ...graph }) : Object.assign(this, {}, { ...graph })
 
-      console.log('resposta do graph convertido')
-      console.log(graph)
+      // console.log('resposta do graph convertido')
+      // console.log(graph)
 
-      // Object.assign(this, ...graph)
+      Object.assign(this, graph)
 
-      console.log('objeto final')
-      console.log(this)
+      // console.log('objeto final')
+      // console.log(this)
 
       return graph
 
@@ -117,7 +116,7 @@ export default class Model {
 
   async delete () {
     try {
-      const operation = this.deleteMutation()
+      const operation = this.DELETE_MUTATION()
 
       await this.$apollo.mutate({
         mutation: operation.mutation,

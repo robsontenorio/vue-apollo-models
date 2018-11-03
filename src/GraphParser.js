@@ -13,7 +13,11 @@ export default class GraphParser {
       graph[key] = this.parseEntry(value)
     })
 
-    return graph.__typename !== undefined ? this.parseModel(graph) : graph
+    let object = graph.__typename !== undefined ? this.parseModel(graph) : graph
+
+    delete object.__typename
+
+    return object
   }
 
   parseCollection (collection) {
@@ -28,21 +32,21 @@ export default class GraphParser {
   }
 
   parseModel (attributes) {
-    // console.log(attributes.__typename)
     const model = this.models[attributes.__typename]
 
     try {
       return new model(attributes)
     } catch (e) {
+      // if (attributes.__typename.includes('Paginator') == -1) {
       console.warn('Model not found: ' + attributes.__typename)
-      console.log(attributes)
+      // console.log(attributes)
+      // }
       return attributes
     }
   }
 
   parseEntry (value) {
     if (value instanceof Object && !Array.isArray(value)) {
-      // console.log(value)
       return this.parseModel(value)
     }
 
