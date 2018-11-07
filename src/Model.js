@@ -76,6 +76,36 @@ export default class Model {
     return id !== undefined && id !== 0 && id !== '' && id !== null
   }
 
+  static async find (id) {
+    let response = await this.$apollo.query({
+      query: this.FIND_QUERY,
+      variables: {
+        id
+      }
+    })
+
+    return GraphParser.map(Object.entries(response.data)[0][1], this.$models)
+  }
+
+  static async all (variables = {}) {
+    let response = await this.$apollo.query({
+      query: this.ALL_QUERY,
+      variables
+    })
+
+    return GraphParser.map(Object.entries(response.data)[0][1], this.$models)
+  }
+
+  static async query (query, variables, options) {
+    let response = await this.$apollo.query({
+      query,
+      variables,
+    })
+
+    return GraphParser.map(Object.entries(response.data)[0][1], this.$models)
+  }
+
+
   async save () {
     try {
       // TODO exception if methods are not implemented on BaseModel
@@ -101,7 +131,7 @@ export default class Model {
       // console.log('resposta do graph convertido')
       // console.log(graph)
 
-      Object.assign(this, graph)
+      Object.assign(this, {}, graph)
 
       // console.log('objeto final')
       // console.log(this)
