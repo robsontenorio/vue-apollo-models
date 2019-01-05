@@ -1,4 +1,6 @@
 /node_modules/
 /build/
 /coverage/
+/shm
+docker-compose.yml
 yarn-error.log
