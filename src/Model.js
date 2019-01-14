@@ -17,7 +17,7 @@ export default class Model {
    * 
    * @param {apolloProvider} options 
    */
-  static setup (options) {
+  static setup(options) {
 
     // Pre-load all models
     let models = []
@@ -31,52 +31,42 @@ export default class Model {
     options.apolloProvider.defaultOptions = {
       $query: {
         update: (data) => {
-          console.log('via query')
           let graph = Object.assign({}, Object.entries(data)[0][1])
           return GraphParser.map(graph, Model.$models)
+
         },
       }
     }
 
-    // // make a copy from defaultClient
-    // let defaultClient = {}
-    // Object.assign(defaultClient, {}, options.apolloProvider.defaultClient)
-
-    // // override mutate() 
-    // options.apolloProvider.defaultClient.mutate = (options) => {
-    //   console.log('via mutate')
-    //   return defaultClient.mutate(options)
-    // }
-
     Model.$apollo = options.apolloProvider.defaultClient
   }
 
-  get $apollo () {
+  get $apollo() {
     return Model.$apollo
   }
 
-  get $models () {
+  get $models() {
     return Model.$models
   }
 
-  primaryKey () {
+  primaryKey() {
     return 'id'
   }
 
-  getPrimaryKey () {
+  getPrimaryKey() {
     return this[this.primaryKey()]
   }
 
-  hasId () {
+  hasId() {
     const id = this.getPrimaryKey()
     return this.isValidId(id)
   }
 
-  isValidId (id) {
+  isValidId(id) {
     return id !== undefined && id !== 0 && id !== '' && id !== null
   }
 
-  static async find (id) {
+  static async find(id) {
     let response = await this.$apollo.query({
       query: this.FIND_QUERY,
       variables: {
@@ -87,7 +77,7 @@ export default class Model {
     return GraphParser.map(Object.entries(response.data)[0][1], this.$models)
   }
 
-  static async all (variables = {}) {
+  static async all(variables = {}) {
     let response = await this.$apollo.query({
       query: this.ALL_QUERY,
       variables
@@ -96,7 +86,7 @@ export default class Model {
     return GraphParser.map(Object.entries(response.data)[0][1], this.$models)
   }
 
-  static async query (query, variables, options) {
+  static async query(query, variables, options) {
     let response = await this.$apollo.query({
       query,
       variables,
@@ -106,7 +96,7 @@ export default class Model {
   }
 
 
-  async save () {
+  async save() {
     try {
       // TODO exception if methods are not implemented on BaseModel
       let operation = this.hasId() ? this.UPDATE_MUTATION() : this.CREATE_MUTATION()
@@ -115,26 +105,11 @@ export default class Model {
         mutation: operation.mutation,
         variables: operation.variables
       })
-      // console.log('reposta da mutation')
+
       let object = {}
-
       Object.assign(object, Object.entries(response.data)[0][1])
-
-      // console.log(object)
-
       let graph = GraphParser.map(object, this.$models)
-
-      // console.log({ ...graph })
-
-      // this.hasId() ? Object.assign(this, {}, { ...graph }) : Object.assign(this, {}, { ...graph })
-
-      // console.log('resposta do graph convertido')
-      // console.log(graph)
-
       Object.assign(this, {}, graph)
-
-      // console.log('objeto final')
-      // console.log(this)
 
       return graph
 
@@ -144,7 +119,7 @@ export default class Model {
     }
   }
 
-  async delete () {
+  async delete() {
     try {
       const operation = this.DELETE_MUTATION()
 
@@ -158,7 +133,7 @@ export default class Model {
     }
   }
 
-  convertError (error) {
+  convertError(error) {
     let exception = {}
 
     exception.message = error.graphQLErrors[0].message
