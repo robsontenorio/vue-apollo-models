@@ -31,8 +31,7 @@ export default class Model {
     options.apolloProvider.defaultOptions = {
       $query: {
         update: (data) => {
-          let graph = Object.assign({}, Object.entries(data)[0][1])
-          return GraphParser.map(graph, Model.$models)
+          return GraphParser.map(Object.entries(data)[0][1], Model.$models)
 
         },
       }
