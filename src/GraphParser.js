@@ -55,7 +55,7 @@ export default class GraphParser {
       delete object.__typename
       return object
     } catch (e) {
-      console.warn('Model not found: ' + attributes.__typename)
+      // console.warn('Model not found: ' + attributes.__typename)
       return attributes
     }
   }
