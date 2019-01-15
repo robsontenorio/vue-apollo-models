@@ -1,6 +1,6 @@
 {
   "name": "vue-apollo-models",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "🔌 Transform Vue-Apollo GraphQL responses into Models.",
   "main": "build/index.js",
   "scripts": {
