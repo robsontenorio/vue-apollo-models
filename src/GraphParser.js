@@ -21,6 +21,10 @@ export default class GraphParser {
   }
 
   parseEntry(value) {
+
+    if (value === null)
+      return null
+
     if (value instanceof Object && !Array.isArray(value)) {
       return this.parse(value)
     }

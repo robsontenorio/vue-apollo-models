@@ -22,8 +22,7 @@ export default class Model {
     // Pre-load all models
     let models = []
     let r = require.context('@/models', true, /\.js$/)
-
-    r.keys().forEach(key => models[r(key).default.name] = r(key).default)
+    r.keys().forEach(key => models[key.replace(/(\.\/|\.js)/g, "")] = r(key).default)
 
     Model.$models = models
 
